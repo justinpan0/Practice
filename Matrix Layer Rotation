@@ -1,0 +1,54 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+void rotate(vector<vector<int> > & m){
+    int r = m.size();
+    int c = m.at(0).size();
+    int temp1,temp2;
+    int l = min(r,c)/2;
+    for(int i = 0; i < l; i++){
+        temp1 = m.at(i).at(i+1);
+        temp2 = m.at(r-i-1).at(c-i-2);
+        for(int j = i+1; j < c-i-1; j++){
+            m.at(i).at(j) = m.at(i).at(j+1);
+            m.at(r-i-1).at(c-j-1) = m.at(r-i-1).at(c-j-2);
+        }
+        for(int k = i; k < r-i-1; k++){
+            m.at(r-k-1).at(i) = m.at(r-k-2).at(i);
+            m.at(k).at(c-i-1) = m.at(k+1).at(c-i-1);
+        }
+        m.at(i).at(i) = temp1;
+        temp2 = m.at(r-i-1).at(c-i-1) = temp2;
+    }
+}
+
+
+int main() {
+    int r, c, n, x;
+    
+    if(cin >> r){
+        cin >> c;
+        cin >> n;
+    }
+    
+    vector<vector<int> > matrix(r, vector<int> (c,0));
+    
+    for(int i = 0; i < r; i++)
+        for(int j = 0; j < c && cin >> x; j++)
+            matrix.at(i).at(j) = x;
+        
+    for(int k = 0; k < n; k++)
+        rotate(matrix);
+    
+    for(int i = 0; i < r; i++){
+        for(int j = 0; j < c; j++){
+            cout << matrix.at(i).at(j) << " ";
+        }
+        cout << endl;
+    }  
+    return 0;
+}
